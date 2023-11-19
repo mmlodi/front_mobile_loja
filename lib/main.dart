@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp()
-  
-  // Center (
-  //     child: Text("Oi Mundo!!",
-  //     textDirection: TextDirection.ltr,
-  //     style: TextStyle(fontSize: 30)
-  //     )
-  //   )
+  runApp(
+    MyApp()
   );
+}
+
+class PessoaWidget extends StatelessWidget {
+  final String texto;
+  const PessoaWidget(this.texto);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(color: Colors.lightBlueAccent),
+      child: Text(texto, style: TextStyle(fontSize: 30))
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    const numeroAleatorio = 12;
+
     return  MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -36,15 +45,23 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Primeiro Programa")
+          title: const Text("Primeiro Programa" ) 
         ),
-        body:  Center(
-          child: Text("Hello World")
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PessoaWidget("Razer"),
+                PessoaWidget("Guilherme"),
+                PessoaWidget("Brunna"),
+                PessoaWidget("Juan")
+              ],
+          )
         )
       ),
     );
