@@ -14,7 +14,11 @@ class PessoaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(color: Colors.lightBlueAccent),
-      child: Text(texto, style: TextStyle(fontSize: 30))
+      child: Text(
+        texto, 
+        style: TextStyle(fontSize: 30), 
+        textDirection: TextDirection.ltr
+      )
     );
   }
 }
@@ -48,23 +52,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Primeiro Programa" ) 
-        ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                PessoaWidget("Razer"),
-                PessoaWidget("Guilherme"),
-                PessoaWidget("Brunna"),
-                PessoaWidget("Juan")
-              ],
-          )
-        )
-      ),
-    );
+      home:  MyHomePage(title: 'Flutter Demo Home Page',)
+        // Scaffold(
+        //   appBar: AppBar(
+        //     title: const Text("Primeiro Programa" ) 
+        //   ),
+        //   body: const Center(
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         PessoaWidget("Razer"),
+        //         PessoaWidget("Guilherme"),
+        //         PessoaWidget("Brunna"),
+        //         PessoaWidget("Juan")
+        //       ],
+        //     )
+        //   )
+        // )
+    ) ;
   }
 }
 
@@ -87,19 +92,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _resultado = 0;
 
-  void _incrementCounter() {
+  final _number1Controller = TextEditingController();
+  final _number2Controller = TextEditingController();
+
+  @override
+  void dispose(){
+    _number1Controller.dispose();
+    _number2Controller.dispose();
+    super.dispose();
+  }
+
+  void _somar(){
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      this._resultado = int.parse(_number1Controller.text) + int.parse(_number2Controller.text);
     });
   }
 
+  void _subtrai (){
+    setState(() {
+      this._resultado = int.parse(_number1Controller.text) - int.parse(_number2Controller.text);
+    });
+  }
+
+  void _multiplica(){
+    setState(() {
+      this._resultado = int.parse(_number1Controller.text)*int.parse(_number2Controller.text);
+    });
+  }
+
+  void _divide(){
+    setState(() {
+      this._resultado = (int.parse(_number1Controller.text)/int.parse(_number2Controller.text)).round();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -137,21 +164,65 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Row(
+              children: [
+                Text("Numero 1:"),
+                Expanded(
+                  child: 
+                    TextField(controller: _number1Controller)
+                )
+              ]
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Row(
+              children: [
+                Text("Numero 2:"),
+                Expanded(
+                  child: 
+                    TextField(controller: _number2Controller)
+                )
+              ]
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
+            Center( 
+              child: Row(
+              children:[
+                ElevatedButton(
+                onPressed: _somar, 
+                child: Text("Somar")
+                ),
+                ElevatedButton(
+                onPressed: _subtrai, 
+                child: Text("Subtrai")
+                )
+              ]
+            ),
+            ),
+
+            Center(
+              child: 
+                        Row(
+              children:[
+                ElevatedButton(
+                onPressed: _multiplica, 
+                child: Text("Multiplica")
+                ),
+                ElevatedButton(
+                onPressed: _divide, 
+                child: Text("Divide")
+                )
+              ]
+            ),
+            
+            ),
+
+            Row(
+              children: [
+                Text("Resultado: ${this._resultado}" )
+              ],
+            )
+          ]
+        )
+      )
     );
   }
 }
